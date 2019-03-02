@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="css/jquery-ui.css" rel="stylesheet">
+    <link href="css/jquery-ui.structure.css" rel="stylesheet">
+    <link href="css/jquery-ui.theme.css" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/app.js"></script>
+
+</head>
+<body>
+
+
+
+
+<div id="container">
+
+    <div>
+        <button id="save" class="ui-button ui-widget ui-corner-all">Сохранить</button>
+        <button id="selectImg" class="ui-button ui-widget ui-corner-all">Выбрать фото</button>
+        <button id="select-img-action-download" href="#" class="select-img-action ui-button ui-widget ui-corner-all">Скачать</button>
+        <button id="select-img-action-replace" class="select-img-action ui-button ui-widget ui-corner-all">Заменить</button>
+        <button id="select-img-action-delete" class="select-img-action ui-button ui-widget ui-corner-all">Удалить</button>
+    </div>
+
+    <div>Фото для ретуши</div>
+    <div id="retouch" class="sortable ">
+        <div th:attr="id=${file}" class="img-container"  th:each="file, stat : ${files}" th:if="${stat.first}" th:insert="::frag (file)"></div>
+    </div>
+
+    <div>Обязательные фото</div>
+    <div id="required" class="sortable">
+        <div th:attr="id=${file}" class="img-container" th:each="file,stat : ${files}" th:if="${stat.count>1 && stat.count<6}" th:insert="::frag (file)"></div>
+    </div>
+
+    <div>Дополнительные фото</div>
+    <div id="additional" class="sortable">
+        <div th:attr="id=${file}" class="img-container" th:each="file,stat : ${files}" th:if="${stat.count>5}" th:insert="::frag (file)"></div>
+    </div>
+
+    <input id="file_upload" type="file" name="file" accept="image/*"/>
+</div>
+
+<div id="dialog" >
+    <img id="dialog_img" />
+</div>
+
+<div th:fragment="frag (file)" th:if="${file}" >
+    <img th:attr="id=${'img_'+file}"  width="137" height="183" th:src="${'/file/download/' + file}"/>
+    <div class="img-container-overlay">
+        <a class="img-view" href="#" >Просмотр</a>
+        <a class="img-download" href="#">Скачать</a>
+        <a class="img-replace" href="#">Заменить</a>
+        <a class="img-remove" href="#">Удалить</a>
+    </div>
+</div>
+
+</body>
+</html>
